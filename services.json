@@ -1,0 +1,12 @@
+{
+  "services": [
+    { "id": "website", "name": "Website", "url": "https://cairnsuite.com/" },
+    { "id": "operations", "name": "Operations", "url": "https://ops.cairnsuite.com/" },
+    { "id": "recruit", "name": "Recruit", "url": "https://recruit.cairnsuite.com/" },
+    { "id": "mycairn", "name": "My Cairn", "url": "https://my.cairnsuite.com/" },
+    { "id": "backend", "name": "Backend", "url": "https://zopgvbxgbgamnnkjhrzl.supabase.co/auth/v1/health" }
+  ],
+  "later": [
+    "Relay and AI Practice: add a line above when each is live on production."
+  ]
+}

@@ -1,0 +1,45 @@
+name: check
+on:
+  schedule:
+    - cron: '*/5 * * * *'   # GitHub may start scheduled runs late
+  workflow_dispatch:
+permissions:
+  contents: write
+  issues: write
+concurrency:
+  group: check
+  cancel-in-progress: false
+jobs:
+  check:
+    runs-on: ubuntu-latest
+    timeout-minutes: 5
+    steps:
+      - uses: actions/checkout@v4
+      # Runs between commits keep their results in the Actions cache, so git only gets a commit
+      # when a service changes state, an incident opens or closes, or once an hour.
+      - name: Restore results from earlier runs
+        uses: actions/cache/restore@v4
+        with:
+          path: data
+          key: data-${{ github.run_id }}
+          restore-keys: data-
+      - name: Check every service
+        id: check
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: python3 scripts/check.py
+      - name: Save results for the next run
+        uses: actions/cache/save@v4
+        with:
+          path: data
+          key: data-${{ github.run_id }}
+      - name: Commit results
+        if: steps.check.outputs.commit == 'true'
+        run: |
+          git config user.name "cairn-status"
+          git config user.email "cairn-status@users.noreply.github.com"
+          git add data
+          git diff --cached --quiet && exit 0
+          git commit -m "Status results $(date -u +%Y-%m-%dT%H:%MZ)"
+          git pull --rebase -X theirs || true
+          git push

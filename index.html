@@ -1,0 +1,140 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Cairn Status</title>
+<meta name="description" content="Live status of every Cairn app.">
+<meta name="theme-color" content="#EEF1ED">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 915 944'%3E%3Crect x='242' width='431' height='242' rx='121' fill='%23C9A646'/%3E%3Crect x='108' y='350' width='699' height='242' rx='121' fill='%231F5048'/%3E%3Crect y='702' width='915' height='242' rx='121' fill='%231F5048'/%3E%3C/svg%3E">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Archivo:wdth,wght@62..125,300..900&display=swap">
+<style>
+:root{--stage:#EEF1ED;--stage-hi:#F8FAF7;--stage-lo:#E3E8E4;--ink:#132620;--muted:#5E6E68;--green:#1F5048;--green-deep:#163B35;--gold-mark:#C9A646;
+  --ok:#2F9E6E;--part:#D2A93E;--down:#C2493D;--none:#D5DCD8;--font:"Archivo","Helvetica Neue",Arial,sans-serif;--gutter:clamp(16px,5vw,64px);color-scheme:light}
+*{box-sizing:border-box;margin:0;padding:0}
+html{background:var(--stage)}
+body{min-height:100svh;color:var(--ink);font-family:var(--font);-webkit-font-smoothing:antialiased;
+  background:radial-gradient(120% 70% at 50% 0%,var(--stage-hi) 0%,var(--stage) 60%,var(--stage-lo) 100%) fixed}
+a{color:inherit}
+:focus-visible{outline:3px solid var(--gold-mark);outline-offset:3px;border-radius:6px}
+.top{display:flex;align-items:center;justify-content:space-between;gap:12px;max-width:920px;margin:0 auto;padding:18px var(--gutter)}
+.logo{display:inline-flex;align-items:center;gap:10px;font-weight:800;font-size:22px;letter-spacing:-.02em;text-decoration:none}
+.logo svg{width:22px;height:23px}
+.logo .dot{color:var(--gold-mark)}
+.back{font:600 14px/1 var(--font);color:var(--muted);text-decoration:none;padding:10px 12px;border-radius:9px}
+.back:hover{color:var(--ink);background:rgba(19,38,32,.05)}
+main{max-width:920px;margin:0 auto;padding:clamp(40px,8vh,80px) var(--gutter) 80px}
+h1{font-weight:850;letter-spacing:-.05em;line-height:.92;font-size:clamp(56px,9vw,112px)}
+h1 span{color:var(--green)}
+.card{background:rgba(255,255,255,.8);border:1px solid rgba(19,38,32,.08);border-radius:20px;box-shadow:0 24px 48px -40px rgba(19,38,32,.45)}
+.overall{display:flex;align-items:center;gap:12px;margin-top:clamp(28px,4vh,40px);padding:20px 22px;font-weight:750;font-size:clamp(18px,1.8vw,22px)}
+.overall small{margin-left:auto;font:500 13px/1.3 var(--font);color:var(--muted);text-align:right}
+.sd{width:12px;height:12px;border-radius:50%;flex:none;background:var(--none)}
+.sd.ok{background:var(--ok);box-shadow:0 0 0 4px rgba(47,158,110,.15)}
+.sd.part{background:var(--part);box-shadow:0 0 0 4px rgba(210,169,62,.18)}
+.sd.down{background:var(--down);box-shadow:0 0 0 4px rgba(194,73,61,.15)}
+.list{margin-top:14px;overflow:hidden}
+.svc{padding:20px 22px;border-top:1px solid rgba(19,38,32,.07)}
+.svc:first-child{border-top:0}
+.svc-head{display:flex;align-items:center;gap:12px}
+.svc-head b{font-weight:750;font-size:17px}
+.svc-head .pct{margin-left:auto;font:650 15px/1 var(--font);color:var(--ink)}
+.svc-head .now{font:500 14px/1 var(--font);color:var(--muted)}
+.bars{display:flex;gap:2px;height:34px;margin-top:14px}
+.bar{flex:1 1 0;min-width:0;border-radius:3px;background:var(--none);border:0;padding:0;cursor:pointer;transition:transform .15s ease,opacity .15s ease}
+.bar.ok{background:var(--ok)} .bar.part{background:var(--part)} .bar.down{background:var(--down)}
+.bar:hover,.bar.sel{transform:scaleY(1.12)}
+.axis{display:flex;justify-content:space-between;margin-top:8px;font:500 12px/1 var(--font);color:var(--muted)}
+.tip{position:fixed;z-index:10;pointer-events:none;padding:9px 12px;border-radius:10px;background:var(--ink);color:#fff;font:600 13px/1.35 var(--font);white-space:nowrap;
+  box-shadow:0 12px 24px -12px rgba(19,38,32,.6);opacity:0;transform:translate(-50%,-6px);transition:opacity .12s ease}
+.tip.on{opacity:1}
+.tip span{display:block;font-weight:500;color:#C9D8D3}
+.sub-h{margin-top:clamp(48px,7vh,72px);font:700 13px/1 var(--font);letter-spacing:.08em;text-transform:uppercase;color:#6E5A1F}
+.incidents{list-style:none;display:grid;gap:12px;margin-top:14px}
+.inc{padding:18px 22px}
+.inc-top{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+.tag-s{font:700 12px/1 var(--font);padding:6px 10px;border-radius:999px;background:#E1ECE8;color:var(--green-deep)}
+.tag-s.open{background:#F6E1DE;color:#8A2E25}
+.inc h3{font-weight:800;font-size:18px;letter-spacing:-.02em}
+.inc p{margin-top:6px;font-size:15px;color:#33433D}
+.inc a{color:var(--green);font-weight:600}
+.clear{display:flex;align-items:center;gap:12px;margin-top:14px;padding:18px 22px;font-weight:650}
+.ghost{margin-top:14px;display:grid;place-items:center;min-height:160px;border-radius:20px;border:1px dashed rgba(19,38,32,.14);font-weight:700;color:var(--ink)}
+footer{max-width:920px;margin:0 auto;padding:24px var(--gutter) 40px;font-size:14px;color:var(--muted);display:flex;justify-content:space-between;gap:12px;flex-wrap:wrap}
+footer a{text-decoration:none} footer a:hover{color:var(--ink)}
+@media (max-width:640px){.svc{padding:18px 16px}.bars{gap:1px;height:30px}.bar{border-radius:2px}.overall{flex-wrap:wrap}.overall small{margin-left:24px;text-align:left;width:100%}}
+</style>
+</head>
+<body>
+<header class="top">
+  <a class="logo" href="https://cairnsuite.com" aria-label="Cairn home"><svg viewBox="0 0 915 944" aria-hidden="true"><rect x="242" width="431" height="242" rx="121" fill="#C9A646"/><rect x="108" y="350" width="699" height="242" rx="121" fill="#1F5048"/><rect y="702" width="915" height="242" rx="121" fill="#1F5048"/></svg><span>Cairn<span class="dot">.</span></span></a>
+  <a class="back" href="https://cairnsuite.com">cairnsuite.com &#8599;</a>
+</header>
+<main>
+  <h1>Status<span>.</span></h1>
+  <div class="overall card" id="overall" aria-live="polite"><span class="sd"></span><span>Loading&hellip;</span></div>
+  <div class="list card" id="list"></div>
+  <p class="sub-h">Recent incidents</p>
+  <div id="incidents"></div>
+</main>
+<footer><span>&copy; 2026 Cairn</span><a href="mailto:help@cairnsuite.com">help@cairnsuite.com</a></footer>
+<div class="tip" id="tip" role="status"></div>
+<script>
+(function () {
+  var $ = function (s) { return document.querySelector(s); };
+  function esc(t) { return String(t).replace(/[&<>"]/g, function (c) { return { '&': '&amp;', '<': '&lt;', '>': '&gt;', '"': '&quot;' }[c]; }); }
+  function get(n) { return fetch('data/' + n + '?v=' + Date.now(), { cache: 'no-store' }).then(function (r) { return r.ok ? r.json() : null; }).catch(function () { return null; }); }
+  function iso(d) { return d.toISOString().slice(0, 10); }
+  function nice(s) { return new Date(s + 'T12:00:00Z').toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric', timeZone: 'UTC' }); }
+  function when(t) { return new Date(t).toLocaleString('en-US', { month: 'short', day: 'numeric', hour: 'numeric', minute: '2-digit' }); }
+  function pct(up, runs) { if (!runs) return null; var p = up / runs * 100; return p === 100 ? '100%' : (Math.floor(p * 100) / 100).toFixed(2) + '%'; }
+  Promise.all([get('latest.json'), get('daily.json'), get('incidents.json')]).then(function (r) {
+    var latest = r[0], daily = r[1] || {}, incidents = r[2] || [];
+    var days = []; for (var i = 89; i >= 0; i--) { var d = new Date(); d.setUTCDate(d.getUTCDate() - i); days.push(iso(d)); }
+    if (!latest || !latest.order) {
+      $('#overall').innerHTML = '<span class="sd"></span><span>Waiting for the first check</span>';
+      $('#list').outerHTML = '<div class="ghost">No results yet.</div>';
+    } else {
+      var down = latest.order.filter(function (id) { return !latest.services[id].up; });
+      var names = down.map(function (id) { return latest.services[id].name; });
+      var msg = !down.length ? 'All systems operational' : (down.length === latest.order.length ? 'All systems down' : names.join(', ') + (down.length === 1 ? ' is' : ' are') + ' down');
+      $('#overall').innerHTML = '<span class="sd ' + (down.length ? 'down' : 'ok') + '"></span><span>' + esc(msg) + '</span><small>Checked ' + esc(when(latest.checked_at)) + '</small>';
+      $('#list').innerHTML = latest.order.map(function (id) {
+        var s = latest.services[id], rows = daily[id] || {}, totR = 0, totF = 0;
+        var bars = days.map(function (day) {
+          var row = rows[day], cls = '', p = null;
+          if (row && row.runs) { totR += row.runs; totF += row.failed; p = pct(row.runs - row.failed, row.runs); cls = row.failed === 0 ? 'ok' : (row.failed === row.runs ? 'down' : 'part'); }
+          return '<button class="bar ' + cls + '" type="button" data-day="' + day + '" data-p="' + (p || '') + '" aria-label="' + esc(nice(day)) + ': ' + (p ? p + ' up' : 'no data') + '"></button>';
+        }).join('');
+        var total = pct(totR - totF, totR);
+        return '<section class="svc" aria-label="' + esc(s.name) + '"><div class="svc-head"><span class="sd ' + (s.up ? 'ok' : 'down') + '"></span><b>' + esc(s.name) + '</b><span class="now">' + (s.up ? 'Operational' : 'Down') + '</span><span class="pct">' + (total ? esc(total) + ' uptime' : '') + '</span></div>'
+          + '<div class="bars">' + bars + '</div><div class="axis"><span>90 days ago</span><span>Today</span></div></section>';
+      }).join('');
+    }
+    var open = incidents.filter(function (x) { return x.state === 'open'; }).length;
+    $('#incidents').innerHTML = incidents.length
+      ? '<ul class="incidents">' + incidents.map(function (x) {
+          return '<li class="inc card"><div class="inc-top"><span class="tag-s ' + (x.state === 'open' ? 'open' : '') + '">' + (x.state === 'open' ? 'Ongoing' : 'Resolved') + '</span><h3>' + esc(x.title) + '</h3></div>'
+            + '<p>Started ' + esc(when(x.opened)) + (x.closed ? '. Resolved ' + esc(when(x.closed)) + '.' : '.') + ' <a href="' + esc(x.url) + '">Details</a></p></li>';
+        }).join('') + '</ul>'
+      : '<div class="clear card"><span class="sd ok"></span><span>No incidents.</span></div>';
+    if (!open && incidents.length) $('#incidents').insertAdjacentHTML('afterbegin', '');
+    var tip = $('#tip'), sel = null;
+    function show(b) {
+      if (sel) sel.classList.remove('sel'); sel = b; b.classList.add('sel');
+      tip.innerHTML = esc(nice(b.dataset.day)) + '<span>' + (b.dataset.p ? esc(b.dataset.p) + ' uptime' : 'No data') + '</span>';
+      var r = b.getBoundingClientRect(), x = Math.min(Math.max(r.left + r.width / 2, 70), innerWidth - 70);
+      tip.style.left = x + 'px'; tip.style.top = (r.top - 52) + 'px'; tip.classList.add('on');
+    }
+    function hide() { tip.classList.remove('on'); if (sel) { sel.classList.remove('sel'); sel = null; } }
+    document.addEventListener('mouseover', function (e) { var b = e.target.closest && e.target.closest('.bar'); if (b) show(b); else if (!('ontouchstart' in window)) hide(); });
+    document.addEventListener('click', function (e) { var b = e.target.closest && e.target.closest('.bar'); if (b) show(b); else hide(); });
+    document.addEventListener('focusin', function (e) { if (e.target.classList && e.target.classList.contains('bar')) show(e.target); });
+    addEventListener('scroll', hide, { passive: true });
+  });
+})();
+</script>
+</body>
+</html>
