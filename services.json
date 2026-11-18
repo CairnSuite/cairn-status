@@ -24,11 +24,6 @@
       "id": "backend",
       "name": "Backend",
       "url": "https://zopgvbxgbgamnnkjhrzl.supabase.co/auth/v1/health"
-    },
-    {
-      "id": "alerttest",
-      "name": "Alert test",
-      "url": "https://cairnsuite.com/"
     }
   ],
   "later": [
