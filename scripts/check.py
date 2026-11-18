@@ -111,6 +111,8 @@ def main():
 
     # keep 90 days; drop services no longer listed
     ids = {s['id'] for s in services}
+    if set(state['services']) != ids or set(daily) - ids:
+        changed = True  # a service was added or removed
     cutoff = (now.date() - datetime.timedelta(days=KEEP_DAYS - 1)).isoformat()
     daily = {sid: {d: v for d, v in days.items() if d >= cutoff} for sid, days in daily.items() if sid in ids}
     state['services'] = {k: v for k, v in state['services'].items() if k in ids}
