@@ -1,51 +1,87 @@
 name: check
+# Two ways this runs, and only one of them checks at a time:
+# - The 5-minute schedule. GitHub may start these late or not at all on a new repo.
+# - A self-restarting loop: one run checks every 5 minutes for about 5.5 hours, then starts the next.
+# A scheduled run does nothing while a loop is running. If no loop is running, it checks once and
+# starts one, so the schedule also restarts the loop if it ever stops.
 on:
   schedule:
-    - cron: '*/5 * * * *'   # every 5 minutes; GitHub may start scheduled runs late
+    - cron: '*/5 * * * *'
   workflow_dispatch:
     inputs:
       save:
         description: Save results to the repo now
         type: boolean
         default: false
+      loop:
+        description: Keep checking every 5 minutes, then start the next run
+        type: boolean
+        default: true
 permissions:
   contents: write
   issues: write
-concurrency:
-  group: check
-  cancel-in-progress: false
+  actions: write
 jobs:
   check:
     runs-on: ubuntu-latest
-    timeout-minutes: 5
+    timeout-minutes: 350
+    # Loops queue behind each other; one-off checks share their own queue.
+    concurrency:
+      group: ${{ inputs.loop && 'loop' || 'once' }}
+      cancel-in-progress: false
+    env:
+      GH_TOKEN: ${{ github.token }}
+      LOOP: ${{ inputs.loop == true }}
+      FORCE_COMMIT: ${{ inputs.save == true }}
     steps:
+      - name: Skip if a loop is already checking
+        id: gate
+        run: |
+          if [ "$LOOP" = "true" ]; then echo "go=true" >> "$GITHUB_OUTPUT"; exit 0; fi
+          busy=$(gh run list -R "$GITHUB_REPOSITORY" --workflow check.yml --event workflow_dispatch \
+            --status in_progress --json databaseId -q "[.[] | select(.databaseId != ${{ github.run_id }})] | length")
+          if [ "${busy:-0}" -gt 0 ]; then echo "A loop is running; nothing to do."; echo "go=false" >> "$GITHUB_OUTPUT"
+          else echo "go=true" >> "$GITHUB_OUTPUT"; fi
       - uses: actions/checkout@v4
-      # Runs between commits keep their results in the Actions cache, so git only gets a commit
-      # when a service changes state, an incident opens or closes, or once an hour.
+        if: steps.gate.outputs.go == 'true'
+      # Results between commits live in the Actions cache, so git only gets a commit when a service
+      # changes state, an incident opens or closes, or once an hour.
       - name: Restore results from earlier runs
+        if: steps.gate.outputs.go == 'true'
         uses: actions/cache/restore@v4
         with:
           path: data
           key: data-${{ github.run_id }}
           restore-keys: data-
       - name: Check every service
-        id: check
-        env:
-          GH_TOKEN: ${{ github.token }}
-          FORCE_COMMIT: ${{ inputs.save == true }}
-        run: python3 scripts/check.py
+        if: steps.gate.outputs.go == 'true'
+        run: |
+          git config user.name "cairn-status"
+          git config user.email "cairn-status@users.noreply.github.com"
+          end=$(( $(date +%s) + 330*60 ))
+          while :; do
+            out=$(mktemp)
+            GITHUB_OUTPUT="$out" python3 scripts/check.py || echo "check failed; trying again next round"
+            if grep -q '^commit=true' "$out"; then
+              git add data
+              if ! git diff --cached --quiet; then
+                git commit -q -m "Status results $(date -u +%Y-%m-%dT%H:%MZ)"
+                git pull -q --rebase -X theirs || true
+                git push -q || echo "push failed; will retry with the next commit"
+              fi
+            fi
+            FORCE_COMMIT=false
+            [ "$LOOP" = "true" ] || break
+            next=$(( ( $(date +%s) / 300 + 1 ) * 300 ))
+            [ "$next" -lt "$end" ] || break
+            sleep $(( next - $(date +%s) ))
+          done
       - name: Save results for the next run
+        if: always() && steps.gate.outputs.go == 'true'
         uses: actions/cache/save@v4
         with:
           path: data
           key: data-${{ github.run_id }}
-      - name: Commit results
-        if: steps.check.outputs.commit == 'true'
-        run: |
-          git config user.name "cairn-status"
-          git config user.email "cairn-status@users.noreply.github.com"
-          git add data
-          git diff --cached --quiet && exit 0
-          git commit -m "Status results $(date -u +%Y-%m-%dT%H:%MZ)"
-          git pull --rebase -X theirs || true
-          git push
+      - name: Start the next loop
+        if: always() && !cancelled() && steps.gate.outputs.go == 'true'
+        run: gh workflow run check.yml -R "$GITHUB_REPOSITORY" -f loop=true
