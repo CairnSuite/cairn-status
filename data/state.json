@@ -1,10 +1,10 @@
 {
- "last_commit": 1794970150,
+ "last_commit": 1794970194,
  "services": {
   "alerttest": {
-   "fails": 2,
-   "issue": 1,
-   "up": false
+   "fails": 0,
+   "issue": null,
+   "up": true
   },
   "backend": {
    "fails": 0,
