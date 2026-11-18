@@ -2,35 +2,35 @@
  "backend": {
   "2026-11-18": {
    "failed": 0,
-   "runs": 70,
-   "worst_ms": 210
+   "runs": 83,
+   "worst_ms": 214
   }
  },
  "mycairn": {
   "2026-11-18": {
    "failed": 0,
-   "runs": 70,
-   "worst_ms": 368
+   "runs": 83,
+   "worst_ms": 456
   }
  },
  "operations": {
   "2026-11-18": {
    "failed": 0,
-   "runs": 70,
+   "runs": 83,
    "worst_ms": 385
   }
  },
  "recruit": {
   "2026-11-18": {
    "failed": 0,
-   "runs": 70,
+   "runs": 83,
    "worst_ms": 437
   }
  },
  "website": {
   "2026-11-18": {
    "failed": 0,
-   "runs": 70,
+   "runs": 83,
    "worst_ms": 489
   }
  }
