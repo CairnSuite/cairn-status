@@ -1,0 +1,30 @@
+{
+ "last_commit": 1794970089,
+ "services": {
+  "backend": {
+   "fails": 0,
+   "issue": null,
+   "up": true
+  },
+  "mycairn": {
+   "fails": 0,
+   "issue": null,
+   "up": true
+  },
+  "operations": {
+   "fails": 0,
+   "issue": null,
+   "up": true
+  },
+  "recruit": {
+   "fails": 0,
+   "issue": null,
+   "up": true
+  },
+  "website": {
+   "fails": 0,
+   "issue": null,
+   "up": true
+  }
+ }
+}

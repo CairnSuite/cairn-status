@@ -1,0 +1,37 @@
+{
+ "backend": {
+  "2026-11-18": {
+   "failed": 0,
+   "runs": 1,
+   "worst_ms": 152
+  }
+ },
+ "mycairn": {
+  "2026-11-18": {
+   "failed": 0,
+   "runs": 1,
+   "worst_ms": 208
+  }
+ },
+ "operations": {
+  "2026-11-18": {
+   "failed": 0,
+   "runs": 1,
+   "worst_ms": 186
+  }
+ },
+ "recruit": {
+  "2026-11-18": {
+   "failed": 0,
+   "runs": 1,
+   "worst_ms": 194
+  }
+ },
+ "website": {
+  "2026-11-18": {
+   "failed": 0,
+   "runs": 1,
+   "worst_ms": 207
+  }
+ }
+}
