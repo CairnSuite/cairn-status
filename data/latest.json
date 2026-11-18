@@ -1,41 +1,35 @@
 {
- "checked_at": "2026-11-18T02:49:51+00:00",
+ "checked_at": "2026-11-18T02:51:25+00:00",
  "order": [
   "website",
   "operations",
   "recruit",
   "mycairn",
-  "backend",
-  "alerttest"
+  "backend"
  ],
  "services": {
-  "alerttest": {
-   "ms": 105,
-   "name": "Alert test",
-   "up": true
-  },
   "backend": {
-   "ms": 166,
+   "ms": 153,
    "name": "Backend",
    "up": true
   },
   "mycairn": {
-   "ms": 114,
+   "ms": 264,
    "name": "My Cairn",
    "up": true
   },
   "operations": {
-   "ms": 233,
+   "ms": 332,
    "name": "Operations",
    "up": true
   },
   "recruit": {
-   "ms": 181,
+   "ms": 208,
    "name": "Recruit",
    "up": true
   },
   "website": {
-   "ms": 139,
+   "ms": 236,
    "name": "Website",
    "up": true
   }
