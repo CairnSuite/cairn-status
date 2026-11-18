@@ -118,7 +118,7 @@ def main():
     state['services'] = {k: v for k, v in state['services'].items() if k in ids}
     latest['order'] = [s['id'] for s in services]
 
-    commit = changed or (time.time() - state.get('last_commit', 0) >= COMMIT_EVERY)
+    commit = changed or os.environ.get('FORCE_COMMIT') == 'true' or (time.time() - state.get('last_commit', 0) >= COMMIT_EVERY)
     if commit:
         state['last_commit'] = int(time.time())
         refresh_incidents()
