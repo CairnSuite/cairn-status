@@ -43,7 +43,7 @@ h1 span{color:var(--green)}
 .svc-head .now{margin-left:auto;font:650 15px/1 var(--font);color:var(--ink)}
 .bars{display:flex;gap:2px;height:34px;margin-top:14px}
 .bar{flex:1 1 0;min-width:0;border-radius:3px;background:var(--none);border:0;padding:0;cursor:pointer;transition:transform .15s ease,opacity .15s ease}
-.bar.ok{background:var(--ok)} .bar.part{background:var(--part)} .bar.down{background:var(--down)}
+.bar.ok{background:var(--ok)} .bar.ok2{background:#5DB78F} .bar.ok3{background:#8CCDAF} .bar.part{background:var(--part)} .bar.down{background:var(--down)}
 .bar:hover,.bar.sel{transform:scaleY(1.12)}
 .axis{display:flex;justify-content:space-between;margin-top:8px;font:500 12px/1 var(--font);color:var(--muted)}
 .tip{position:fixed;z-index:10;pointer-events:none;padding:9px 12px;border-radius:10px;background:var(--ink);color:#fff;font:600 13px/1.35 var(--font);white-space:nowrap;
@@ -104,7 +104,7 @@ footer a{text-decoration:none} footer a:hover{color:var(--ink)}
         var s = latest.services[id], rows = daily[id] || {}, totR = 0, totF = 0;
         var bars = days.map(function (day) {
           var row = rows[day], cls = '', p = null;
-          if (row && row.runs) { totR += row.runs; totF += row.failed; p = pct(row.runs - row.failed, row.runs); cls = row.failed === 0 ? 'ok' : (row.failed === row.runs ? 'down' : 'part'); }
+          if (row && row.runs) { totR += row.runs; totF += row.failed; p = pct(row.runs - row.failed, row.runs); var up = (row.runs - row.failed) / row.runs; cls = row.failed === 0 ? 'ok' : up >= 0.99 ? 'ok2' : up >= 0.98 ? 'ok3' : (row.failed === row.runs ? 'down' : 'part'); }
           return '<button class="bar ' + cls + '" type="button" data-day="' + day + '" data-p="' + (p || '') + '" aria-label="' + esc(nice(day)) + ': ' + (p ? p + ' up' : 'no data') + '"></button>';
         }).join('');
         return '<section class="svc" aria-label="' + esc(s.name) + '"><div class="svc-head"><span class="sd ' + (s.up ? 'ok' : 'down') + '"></span><b>' + esc(s.name) + '</b><span class="now">' + (s.up ? 'Operational' : 'Down') + '</span></div>'
