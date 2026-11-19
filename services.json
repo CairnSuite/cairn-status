@@ -23,10 +23,12 @@
     {
       "id": "backend",
       "name": "Backend",
-      "url": "https://zopgvbxgbgamnnkjhrzl.supabase.co/auth/v1/health"
+      "url": "https://zopgvbxgbgamnnkjhrzl.supabase.co/auth/v1/health",
+      "public": false
     }
   ],
   "later": [
     "Relay and AI Practice: add a line above when each is live on production."
-  ]
+  ],
+  "note": "Services with \"public\": false are still checked and alert us (issue label \"internal\"), but are left off the public page and its incident list."
 }

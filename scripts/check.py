@@ -99,7 +99,8 @@ def main():
         print(f"{s['name']}: {'up' if up else 'DOWN'} {ms if ms is not None else '-'} ms")
 
         if not up and st['fails'] >= FAILS_TO_OPEN and not st['issue']:
-            url = gh('issue', 'create', '--title', f"{s['name']} down", '--label', 'incident',
+            url = gh('issue', 'create', '--title', f"{s['name']} down",
+                     '--label', 'incident' if s.get('public', True) else 'internal',
                      '--body', f"Automatic check: {s['name']} failed {st['fails']} checks in a row, first at about {now.strftime('%Y-%m-%d %H:%M')} UTC.")
             if url:
                 st['issue'] = int(url.rstrip('/').split('/')[-1])
@@ -116,7 +117,7 @@ def main():
     cutoff = (now.date() - datetime.timedelta(days=KEEP_DAYS - 1)).isoformat()
     daily = {sid: {d: v for d, v in days.items() if d >= cutoff} for sid, days in daily.items() if sid in ids}
     state['services'] = {k: v for k, v in state['services'].items() if k in ids}
-    latest['order'] = [s['id'] for s in services]
+    latest['order'] = [s['id'] for s in services if s.get('public', True)]
 
     commit = changed or os.environ.get('FORCE_COMMIT') == 'true' or (time.time() - state.get('last_commit', 0) >= COMMIT_EVERY)
     if commit:

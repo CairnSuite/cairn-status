@@ -40,8 +40,7 @@ h1 span{color:var(--green)}
 .svc:first-child{border-top:0}
 .svc-head{display:flex;align-items:center;gap:12px}
 .svc-head b{font-weight:750;font-size:17px}
-.svc-head .pct{margin-left:auto;font:650 15px/1 var(--font);color:var(--ink)}
-.svc-head .now{font:500 14px/1 var(--font);color:var(--muted)}
+.svc-head .now{margin-left:auto;font:650 15px/1 var(--font);color:var(--ink)}
 .bars{display:flex;gap:2px;height:34px;margin-top:14px}
 .bar{flex:1 1 0;min-width:0;border-radius:3px;background:var(--none);border:0;padding:0;cursor:pointer;transition:transform .15s ease,opacity .15s ease}
 .bar.ok{background:var(--ok)} .bar.part{background:var(--part)} .bar.down{background:var(--down)}
@@ -108,8 +107,7 @@ footer a{text-decoration:none} footer a:hover{color:var(--ink)}
           if (row && row.runs) { totR += row.runs; totF += row.failed; p = pct(row.runs - row.failed, row.runs); cls = row.failed === 0 ? 'ok' : (row.failed === row.runs ? 'down' : 'part'); }
           return '<button class="bar ' + cls + '" type="button" data-day="' + day + '" data-p="' + (p || '') + '" aria-label="' + esc(nice(day)) + ': ' + (p ? p + ' up' : 'no data') + '"></button>';
         }).join('');
-        var total = pct(totR - totF, totR);
-        return '<section class="svc" aria-label="' + esc(s.name) + '"><div class="svc-head"><span class="sd ' + (s.up ? 'ok' : 'down') + '"></span><b>' + esc(s.name) + '</b><span class="now">' + (s.up ? 'Operational' : 'Down') + '</span><span class="pct">' + (total ? esc(total) + ' uptime' : '') + '</span></div>'
+        return '<section class="svc" aria-label="' + esc(s.name) + '"><div class="svc-head"><span class="sd ' + (s.up ? 'ok' : 'down') + '"></span><b>' + esc(s.name) + '</b><span class="now">' + (s.up ? 'Operational' : 'Down') + '</span></div>'
           + '<div class="bars">' + bars + '</div><div class="axis"><span>90 days ago</span><span>Today</span></div></section>';
       }).join('');
     }
