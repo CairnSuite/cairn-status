@@ -1,5 +1,5 @@
 {
- "checked_at": "2026-11-20T02:00:00+00:00",
+ "checked_at": "2026-11-20T03:00:00+00:00",
  "order": [
   "website",
   "operations",
@@ -8,7 +8,7 @@
  ],
  "services": {
   "backend": {
-   "ms": 133,
+   "ms": 116,
    "name": "Backend",
    "up": true
   },
@@ -18,17 +18,17 @@
    "up": true
   },
   "operations": {
-   "ms": 248,
+   "ms": 49,
    "name": "Operations",
    "up": true
   },
   "recruit": {
-   "ms": 42,
+   "ms": 100,
    "name": "Recruit",
    "up": true
   },
   "website": {
-   "ms": 309,
+   "ms": 69,
    "name": "Website",
    "up": true
   }
