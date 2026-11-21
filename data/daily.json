@@ -17,8 +17,8 @@
   },
   "2026-11-21": {
    "failed": 0,
-   "runs": 42,
-   "worst_ms": 229
+   "runs": 54,
+   "worst_ms": 240
   }
  },
  "mycairn": {
@@ -39,7 +39,7 @@
   },
   "2026-11-21": {
    "failed": 0,
-   "runs": 42,
+   "runs": 54,
    "worst_ms": 489
   }
  },
@@ -61,8 +61,8 @@
   },
   "2026-11-21": {
    "failed": 0,
-   "runs": 42,
-   "worst_ms": 441
+   "runs": 54,
+   "worst_ms": 576
   }
  },
  "recruit": {
@@ -83,8 +83,8 @@
   },
   "2026-11-21": {
    "failed": 0,
-   "runs": 42,
-   "worst_ms": 560
+   "runs": 54,
+   "worst_ms": 616
   }
  },
  "website": {
@@ -105,8 +105,8 @@
   },
   "2026-11-21": {
    "failed": 0,
-   "runs": 42,
-   "worst_ms": 425
+   "runs": 54,
+   "worst_ms": 440
   }
  }
 }
