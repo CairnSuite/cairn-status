@@ -32,7 +32,7 @@
   },
   "2026-11-24": {
    "failed": 0,
-   "runs": 94,
+   "runs": 107,
    "worst_ms": 220
   }
  },
@@ -69,8 +69,8 @@
   },
   "2026-11-24": {
    "failed": 0,
-   "runs": 94,
-   "worst_ms": 357
+   "runs": 107,
+   "worst_ms": 663
   }
  },
  "operations": {
@@ -106,8 +106,8 @@
   },
   "2026-11-24": {
    "failed": 0,
-   "runs": 94,
-   "worst_ms": 410
+   "runs": 107,
+   "worst_ms": 442
   }
  },
  "recruit": {
@@ -143,8 +143,8 @@
   },
   "2026-11-24": {
    "failed": 0,
-   "runs": 94,
-   "worst_ms": 405
+   "runs": 107,
+   "worst_ms": 472
   }
  },
  "website": {
@@ -180,7 +180,7 @@
   },
   "2026-11-24": {
    "failed": 0,
-   "runs": 94,
+   "runs": 107,
    "worst_ms": 415
   }
  }
