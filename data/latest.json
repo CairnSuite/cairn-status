@@ -1,5 +1,5 @@
 {
- "checked_at": "2026-11-26T17:40:00+00:00",
+ "checked_at": "2026-11-26T18:45:00+00:00",
  "order": [
   "website",
   "operations",
@@ -8,27 +8,27 @@
  ],
  "services": {
   "backend": {
-   "ms": 196,
+   "ms": 156,
    "name": "Backend",
    "up": true
   },
   "mycairn": {
-   "ms": 318,
+   "ms": 221,
    "name": "My Cairn",
    "up": true
   },
   "operations": {
-   "ms": 192,
+   "ms": 332,
    "name": "Operations",
    "up": true
   },
   "recruit": {
-   "ms": 235,
+   "ms": 286,
    "name": "Recruit",
    "up": true
   },
   "website": {
-   "ms": 143,
+   "ms": 149,
    "name": "Website",
    "up": true
   }
