@@ -1,1 +1,10 @@
-[]
+[
+ {
+  "closed": null,
+  "number": 2,
+  "opened": "2026-11-28T01:05:02Z",
+  "state": "open",
+  "title": "Website down",
+  "url": "https://github.com/CairnSuite/cairn-status/issues/2"
+ }
+]
