@@ -52,7 +52,7 @@
   },
   "2026-11-28": {
    "failed": 0,
-   "runs": 4,
+   "runs": 13,
    "worst_ms": 222
   }
  },
@@ -108,8 +108,8 @@
    "worst_ms": 489
   },
   "2026-11-28": {
-   "failed": 0,
-   "runs": 4,
+   "failed": 1,
+   "runs": 13,
    "worst_ms": 449
   }
  },
@@ -165,8 +165,8 @@
    "worst_ms": 1164
   },
   "2026-11-28": {
-   "failed": 0,
-   "runs": 4,
+   "failed": 1,
+   "runs": 13,
    "worst_ms": 414
   }
  },
@@ -222,9 +222,9 @@
    "worst_ms": 614
   },
   "2026-11-28": {
-   "failed": 0,
-   "runs": 4,
-   "worst_ms": 266
+   "failed": 1,
+   "runs": 13,
+   "worst_ms": 347
   }
  },
  "website": {
@@ -279,9 +279,9 @@
    "worst_ms": 625
   },
   "2026-11-28": {
-   "failed": 0,
-   "runs": 4,
-   "worst_ms": 347
+   "failed": 1,
+   "runs": 13,
+   "worst_ms": 362
   }
  }
 }
