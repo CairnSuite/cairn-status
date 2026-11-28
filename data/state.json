@@ -1,5 +1,5 @@
 {
- "last_commit": 1795827907,
+ "last_commit": 1795831801,
  "services": {
   "backend": {
    "fails": 0,
@@ -7,22 +7,22 @@
    "up": true
   },
   "mycairn": {
-   "fails": 2,
+   "fails": 15,
    "issue": 5,
    "up": false
   },
   "operations": {
-   "fails": 2,
+   "fails": 15,
    "issue": 3,
    "up": false
   },
   "recruit": {
-   "fails": 2,
+   "fails": 15,
    "issue": 4,
    "up": false
   },
   "website": {
-   "fails": 2,
+   "fails": 15,
    "issue": 2,
    "up": false
   }
